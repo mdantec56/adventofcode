@@ -16,7 +16,7 @@ void	ft_tolower(char c);
 void	ft_toupper(char c);
 
 void	ft_putchar(char c);
-void	ft_putnbr(int nbr);
+void	ft_putnbr(long nbr);
 void	ft_putstr(char *str);
 
 int	ft_strlen(char *str);
@@ -27,12 +27,13 @@ char	*ft_strcat(char *dest, char *src);
 char	*ft_strncat(char *dest, char *src, unsigned int n);
 int	ft_strcmp(char *s1, char *s2);
 int	ft_strncmp(char *s1, char *s2);
-int	ft_atoi(char *str);
-char	*ft_itoa(int nbr);
+long	ft_atoi(char *str);
+char	*ft_itoa(long nbr);
 
 char	*ft_strdup(char *src);
 char	**ft_split(char *src, char *charset);
 char	*ft_strjoin(char **srcs, char *sep);
+char	**ft_subsplit(char *str, char *substring);
 
 char	*ft_get_fichier(char *fichier);
 
