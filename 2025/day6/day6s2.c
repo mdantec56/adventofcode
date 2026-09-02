@@ -32,11 +32,13 @@ char	*ft_get_numbers(char **tab, int colonne)
 	ligne = 0;
 	number = malloc(sizeof(char) * 1);
 	last_line = ft_get_size(tab) - 1;
+	size = 0;
 	number[size] = '\0';
 	while (ligne < last_line)
 	{
 		if (ft_isdigit(tab[ligne][colonne]))
 		{
+			++size;
 			j = 0;
 			temp = number;
 			number = malloc(sizeof(char) * 1 + size);
@@ -45,13 +47,26 @@ char	*ft_get_numbers(char **tab, int colonne)
 				number[j] = temp[j];
 				++j;
 			}
+			free(temp);
 			number[j] = tab[ligne][colonne];
 			number[j + 1] = '\0';
 		}
 		++ligne;
 	}
-	number[ligne] = '\0';
 	return (number);
+}
+
+void	ft_free(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		++i;
+	}
+	free(str);
 }
 
 long	ft_day6s2(char *fichier)
@@ -97,6 +112,7 @@ long	ft_day6s2(char *fichier)
 				else
 					res_line += ft_atoi(number);
 				++colonne;
+				free(number);
 				number = ft_get_numbers(tab, colonne);
 			}
 			++colonnecalc;
@@ -104,7 +120,10 @@ long	ft_day6s2(char *fichier)
 		}
 		else
 			++colonne;
+		free(number);
 	}
+	ft_free(signes);
+	ft_free(tab);
 	return (total);
 }
 
@@ -118,5 +137,6 @@ int	main(int argc, char **argv)
 	}
 	fichier = ft_get_fichier(argv[1]);
 	ft_putnbr(ft_day6s2(fichier));
+	free(fichier);
 	return (0);
 }
