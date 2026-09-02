@@ -60,7 +60,7 @@ long	ft_day6(char *fichier)
 	int	colonne;
 	int	ligne;
 	int	indlastline;
-	int	operator; // * = 1 ; + = 0
+	int	operator;
 
 	tab = ft_create_tab(fichier);
 	if (!tab)
