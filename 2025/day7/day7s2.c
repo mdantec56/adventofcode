@@ -29,22 +29,12 @@ void	ft_puttachyon(char **tab, int ligne, int colonne)
 		tab[ligne + 1][colonne] = '|';
 }
 
-int	ft_putsplit(char **tab, int ligne, int colonne)
+void	ft_putsplit(char **tab, int ligne, int colonne)
 {
-	int	splitted;
-
-	splitted = 0;
 	if (tab[ligne][colonne] == '|' && ft_case_is_valid(tab, ligne + 1, colonne + 1) && tab[ligne + 1][colonne] == '^')
-	{
 		tab[ligne + 1][colonne + 1] = '|';
-		splitted = 1;
-	}
 	if (tab[ligne][colonne] == '|' && ft_case_is_valid(tab, ligne + 1, colonne - 1) && tab[ligne + 1][colonne] == '^')
-	{
 		tab[ligne + 1][colonne - 1] = '|';
-		splitted = 1;
-	}
-	return (splitted);
 }
 
 void	ft_free(char **tab)
@@ -60,18 +50,16 @@ void	ft_free(char **tab)
 	free(tab);
 }
 
-int	ft_day7(char *fichier)
+char	**ft_create_tachyon(char *fichier)
 {
 	char	**tab;
 	int	ligne;
 	int	colonne;
-	int	cpt_split;
 
 	tab = ft_split(fichier, "\n");
 	if (!tab)
-		return (-1);
+		return (NULL);
 	ligne = 0;
-	cpt_split = 0;
 	while (tab[ligne])
 	{
 		colonne = 0;
@@ -79,13 +67,27 @@ int	ft_day7(char *fichier)
 		{
 			ft_start(tab, ligne, colonne);
 			ft_puttachyon(tab, ligne, colonne);
-			cpt_split += ft_putsplit(tab, ligne, colonne);
+			ft_putsplit(tab, ligne, colonne);
 			++colonne;
 		}
 		++ligne;
 	}
-	ft_free(tab);
-	return (cpt_split);
+	return (tab);
+}
+
+int	ft_day7s2(char *fichier)
+{
+	char	**tab;
+	int	ligne;
+	int	colonne;
+	int	cpt_timeline;
+
+	tab = ft_create_tachyon(fichier);
+	if (!tab)
+		return (-1);
+	ligne = ft_get_size(tab) - 1;
+	cpt_timeline = 0;
+	return (cpt_timeline);
 }
 
 int	main(int argc, char **argv)
@@ -97,7 +99,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	fichier = ft_get_fichier(argv[1]);
-	ft_putnbr(ft_day7(fichier));
+	ft_putnbr(ft_day7s2(fichier));
 	free(fichier);
 	return (0);
 }
