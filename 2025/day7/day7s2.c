@@ -124,6 +124,20 @@ long long	ft_count(char **tab, long long **memo, int ligne, int colonne)
 	memo[ligne][colonne] = count;
 	return (count);
 }
+
+void	ft_free_memo(long long **memo)
+{
+	int	i;
+
+	i = 0;
+	while (memo[i])
+	{
+		free(memo[i]);
+		++i;
+	}
+	free(memo);
+}
+
 long long	ft_day7s2(char *fichier)
 {
 	char	**tab;
@@ -151,6 +165,8 @@ long long	ft_day7s2(char *fichier)
 		}
 		++ligne;
 	}
+	ft_free(tab);
+	ft_free_memo(memo);
 	return (cpt_timeline);
 }
 int	main(int argc, char **argv)
