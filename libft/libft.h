@@ -16,7 +16,7 @@ void	ft_tolower(char c);
 void	ft_toupper(char c);
 
 void	ft_putchar(char c);
-void	ft_putnbr(long nbr);
+void	ft_putnbr(long long nbr);
 void	ft_putstr(char *str);
 
 int	ft_strlen(char *str);

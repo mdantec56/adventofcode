@@ -75,21 +75,84 @@ char	**ft_create_tachyon(char *fichier)
 	return (tab);
 }
 
-int	ft_day7s2(char *fichier)
+long long	**ft_create_memo(int size_l, int size_c)
+{
+	long long	**tab;
+	int	i;
+	int	j;
+
+	tab = malloc(sizeof(long long *) * (size_l + 1));
+	if (!tab)
+		return (NULL);
+	i = 0;
+	while (i < size_l)
+	{
+		j = 0;
+		tab[i] = malloc(sizeof(long long) * (size_c + 1));
+		while (j < size_c)
+		{
+			tab[i][j] = -1;
+			++j;
+		}
+		++i;
+	}
+	tab[i] = NULL;
+	return (tab);
+}
+
+long long	ft_count(char **tab, long long **memo, int ligne, int colonne)
+{
+	long long count;
+
+	count = 0;
+	if (memo[ligne][colonne] != -1)
+		return (memo[ligne][colonne]);
+	if (!ft_case_is_valid(tab, ligne + 1, colonne))
+	{
+		memo[ligne][colonne] = 1;
+		return (1);
+	}
+	if (tab[ligne + 1][colonne] == '^')
+	{
+		if (ft_case_is_valid(tab, ligne + 1, colonne - 1))
+			count += ft_count(tab, memo, ligne + 1, colonne - 1);
+		if (ft_case_is_valid(tab, ligne + 1, colonne + 1))
+			count += ft_count(tab, memo, ligne + 1, colonne + 1);
+	}
+	else
+		count = ft_count(tab, memo, ligne + 1, colonne);
+	memo[ligne][colonne] = count;
+	return (count);
+}
+long long	ft_day7s2(char *fichier)
 {
 	char	**tab;
 	int	ligne;
 	int	colonne;
-	int	cpt_timeline;
+	long long	cpt_timeline;
+	long long	**memo;
 
 	tab = ft_create_tachyon(fichier);
 	if (!tab)
 		return (-1);
-	ligne = ft_get_size(tab) - 1;
+	ligne = 0;
 	cpt_timeline = 0;
+	memo = ft_create_memo(ft_get_size(tab), ft_strlen(tab[0]));
+	if (!memo)
+		return (-1);
+	while (tab[ligne])
+	{
+		colonne = 0;
+		while (tab[ligne][colonne])
+		{
+			if (tab[ligne][colonne] == 'S')
+				cpt_timeline += ft_count(tab, memo, ligne, colonne);
+			++colonne;
+		}
+		++ligne;
+	}
 	return (cpt_timeline);
 }
-
 int	main(int argc, char **argv)
 {
 	char	*fichier;
